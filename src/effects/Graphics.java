@@ -68,7 +68,7 @@ public final class Graphics {
 		return kingImage;
 	}
 	
-	public static Image createPrince(String stance, String direction, int animationNumber){//This sets a image for the Prince. JL
+	public static Image createPrince(String stance, String direction, int animationNumber){//This sets a image for the Prince JL
 		Image princeImage = null;
 		if(stance.equals("Idle")){
 			princeImage = new Image("/PrincePictures/PrinceIdle_" + direction + ".png", 34.85, 40, //This is the image of the Prince standing idle facing a direction. JL

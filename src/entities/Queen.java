@@ -2,7 +2,7 @@ package entities;
 
 import effects.Graphics;
 
-public class Queen extends GameObject{//This is the creation of the Queen object. JL
+public class Queen extends GameObject{//This is the creation of the Queen object JL
 	private double standByLocation, minX, maxX;
 	
 	private static final double QUEEN_DEFAULT_MAXHEALTH = 120;//This sets the max health of the Queen. JL
