@@ -1,0 +1,14 @@
+If project doesn't run (problem is most likely that it cannot find the main class/Application.TowerDefense):
+- Right-Click Project
+	- Build Path
+		- Configure Build Path
+	- Libraries
+		- If jfxrt.jar is there (but says missing or something), delete it.
+		- Add External Jar
+			- Find this project in the workspace
+			- Go to Lib
+			- Add in jfxrt.jar
+		- Order and Export
+			- Check jar file
+			- Move to top of list
+- Try to run program
