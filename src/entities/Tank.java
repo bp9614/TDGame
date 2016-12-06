@@ -352,7 +352,7 @@ public class Tank extends Fighter{
 	}
 
 	@Override
-	public void ascendStairs() {
+	public void ascendStairs() {//This tells the Tank to go through the stairway onto the next floor. JL
 		if(getY() == PrimeLocations.FIRST_FLOOR_Y){
 			setY(PrimeLocations.SECOND_FLOOR_Y);
 		}
@@ -365,7 +365,7 @@ public class Tank extends Fighter{
 	public void move(){}
 
 	@Override
-	public void animation() {
+	public void animation() {//This function changes the animation of the Tank walking and standing idle, as well as change the direction he is facing. JL
 		if(getInAttackAnimation()){
 			if(getCharacterPortrait().getImage().impl_getUrl().contains("Idle") ||
 					getCharacterPortrait().getImage().impl_getUrl().contains("Walking")){
