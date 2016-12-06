@@ -147,7 +147,7 @@ public class Tank extends Fighter{
 	}
 	
 	@Override
-	public void move(ArrayList<Fighter> enemiesOnPath, ArrayList<GameObject> royality) {//This tells the tanks to move and attack on the third floor of the castle. JL
+	public void move(ArrayList<Fighter> enemiesOnPath, ArrayList<GameObject> royality) {//This tells the tanks to move and attack on the third floor of the castle with the focus order being enemies then the royal family. JL
 		if(getInAttackAnimation()){
 			animation();
 			return;
@@ -183,7 +183,7 @@ public class Tank extends Fighter{
 			return;
 		}
 		
-		for(GameObject royalFamily: royality){
+		for(GameObject royalFamily: royality){//This is the same attack above except instead of attack enemy soldiers it is attack the royality. JL
 			if(royalFamily.getX() - getX() < 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
 				reverse();
 			}
@@ -230,7 +230,7 @@ public class Tank extends Fighter{
 	}
 	
 	@Override
-	public void defend(ArrayList<Fighter> enemiesOnPath) {
+	public void defend(ArrayList<Fighter> enemiesOnPath) {//This function tells the tank to attack the enemy if they are on the same floor. JL
 		if(getInAttackAnimation()){
 			animation();
 			return;
@@ -240,21 +240,21 @@ public class Tank extends Fighter{
 		}
 		
 		for(Fighter enemy: enemiesOnPath){
-			if(enemy.getY() == getY()){
+			if(enemy.getY() == getY()){//This tells the enemy to attack soldiers that are on the same floor as them. JL
 				if(enemy.getX() < PrimeLocations.BATTLEFIELD_STARTING_X || enemy.getX() > PrimeLocations.BATTLEFIELD_ENDING_X){
 					if(enemy.getX() - getX() < 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
 						reverse();
 					}
 					else if(enemy.getX() - getX() > 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Left")){
-						reverse();
+						reverse();//If the enemy is in range but you are facing the wrong way, it reverse directions. JL
 					}
 					
-					if(enemy.getX() - getX() <= getAttackRange() && enemy.getX() - getX() >= -getAttackRange()){
+					if(enemy.getX() - getX() <= getAttackRange() && enemy.getX() - getX() >= -getAttackRange()){//Attacks enemy if Tank is in range and cool down is 0. JL
 						if(getCooldown() == 0){
 							attack(enemy);
 						}
 					}
-					else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){
+					else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){ //if enemy isn't within range, move towards them. JL
 						if(enemy.getX() > getX()){
 							setX(getX() + .75);
 							animation();
@@ -274,7 +274,7 @@ public class Tank extends Fighter{
 	}
 
 	@Override
-	public void retreat() {
+	public void retreat() {//Tells the tank that if there are no more enemies on the floor, then move back to the starting place. JL
 		if(getX() != standByLocation){
 			if(getX() > standByLocation){
 				if(getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
@@ -308,7 +308,7 @@ public class Tank extends Fighter{
 	}
 
 	@Override
-	public void reverse() {
+	public void reverse() {//This tells the Tanks to turn around when needed. JL
 		if(getCharacterPortrait().getImage().impl_getUrl().contains("Idle")){
 			if(getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
 				getCharacterPortrait().setImage((Graphics.createTank("Idle", "Left", 0)));
