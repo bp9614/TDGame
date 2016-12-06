@@ -169,7 +169,7 @@ public class Tank extends Fighter{
 					attack(enemy);
 				}
 			}
-			else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){//
+			else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){//If enemy
 				if(enemy.getX() > getX()){
 					setX(getX() + .75);
 					animation();
