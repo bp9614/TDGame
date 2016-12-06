@@ -33,6 +33,31 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/*
+ * The project/GUI will be using JavaFX. Built-in Java library. README is available if you can't run it.
+ * All JavaFX applications must extend Application to run.
+ * -----------------------------------------------------------------------------------------------------
+ * The TowerDefense class is the main source of operations for this game. It carries the screen (in JavaFX
+ * the Stage), the scene, which is the medium for the pane and is what the stage shows, and the pane, 
+ * holds any and every object to be displayed. There is an inner class called Menu, which is what holds
+ * any objects/pane elements related to a menu. The reason we chose to have the Menu as an inner class is 
+ * that games may have menus, but the game is not a menu, so it should be a separate class. Also, to 
+ * allow the class to be able to use the main game's methods, menu must be within the class.
+ * ------------------------------------------------------------------------------------------------------
+ * To avoid immense amount of loading of images (although, any character animations have to constantly
+ * load up a new image, which will significantly slow down the program and can cause .25 FPS (and or 
+ * crashes), so, if you read this Carpenter, don't use 8x, don't ever use 8x, and usually don't use 4x 
+ * if there is 12+ characters on screen)). We also set them as final to alert any programmers that these
+ * files are only loaded once. (Though they may be moved around/changed internally).
+ * ------------------------------------------------------------------------------------------------------
+ * We don't want people to redefine our class, neither do we want them to randomly call one of these 
+ * methods, so we set it as a final class (un-inheritable), and we set every class to private.
+ * ------------------------------------------------------------------------------------------------------
+ * Just for added effects, unless you are playing the game, the background is blurred out. Other effects
+ * include when you are adding in enemies, you'll see a button to click, which then shows you an interface
+ * to click and choose what soldier to place. Also on that screen, shows you where to click to add the
+ * soldiers to.
+ */
 public final class TowerDefense extends Application{
 	private Scene scene;
 	private Pane onScene;
@@ -86,11 +111,20 @@ public final class TowerDefense extends Application{
 		setGameTimeline();
 	}
 	
+	/*
+	 * To avoid having an overload of materials being initialized in the constructor, this and one other
+	 * method will set all the default values (and possible events when clicked on).
+	 */
 	private void setDefaultsAndEvents(){
 		onScene.setBackground(Graphics.BLURRED_BACKGROUND);
 		numberOfCoinsText.setFont(new Font(15));
 		
-		
+		/*
+		 * All interfaces are outlined in black to separate them. Gray was a nice color to use for the
+		 * interface, opacity (transparency) is lowered from 1 (non-transparent) so that the player
+		 * can still see the castle/royal family through the interface. Images below go with the interface,
+		 * showing the user what characters they can add and for what price.
+		 */
 		characterInterface_1.setStroke(Color.BLACK);
 		characterInterface_1.setFill(Color.LIGHTGRAY);
 		characterInterface_1.setOpacity(0.8);
@@ -155,27 +189,6 @@ public final class TowerDefense extends Application{
 						characterInterface_3, coinCost_1, coinCost_2, coinCost_3, coinImage_1,
 						coinImage_2, coinImage_3, archerImage, warriorImage, tankImage);
 			}
-		});
-	}
-	
-	@Override
-	public void start(Stage primaryStage){
-		menus.startMenu();
-	
-		scene.setOnMouseClicked(e->{
-			System.out.println("X: " + e.getX() + ", Y: " + e.getY());
-		});
-		
-		primaryStage.setTitle("Tower Defense Game");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-		
-		primaryStage.setMaxHeight(920);
-		primaryStage.setMinHeight(920);
-		primaryStage.setMaxWidth(1210);
-		primaryStage.setMinWidth(1210);
-		primaryStage.setOnCloseRequest(e->{
-			settings.saveSettings();
 		});
 	}
 	
@@ -991,6 +1004,29 @@ public final class TowerDefense extends Application{
 		characterInterface_1.setFill(Color.LIGHTGRAY);
 		characterInterface_2.setFill(Color.LIGHTGRAY);
 		characterInterface_3.setFill(Color.LIGHTGRAY);
+	}
+	
+	/*
+	 * Once you call launch(...), the program will start here. We start the game off at the startMenu,
+	 * which we setup from the Menu's startMenu.
+	 * -----------------------------------------------------------------------------------------------
+	 * To save settings, we call the saveSettings method of the settings class as the window is closed.
+	 */
+	@Override
+	public void start(Stage primaryStage){
+		menus.startMenu();
+		
+		primaryStage.setTitle("Tower Defense Game");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
+		primaryStage.setMaxHeight(920);
+		primaryStage.setMinHeight(920);
+		primaryStage.setMaxWidth(1210);
+		primaryStage.setMinWidth(1210);
+		primaryStage.setOnCloseRequest(e->{
+			settings.saveSettings();
+		});
 	}
 	
 	public static void main(String args[]){
