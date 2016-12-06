@@ -51,7 +51,7 @@ public class Prince extends GameObject{ //the object in the game that's called P
 			}
 		}
 		
-		if(getCharacterPortrait().getImage().impl_getUrl().contains("Left")){
+		if(getCharacterPortrait().getImage().impl_getUrl().contains("Left")){ //displays the images of the prince that is walking left
 			if(getCharacterPortrait().getImage().impl_getUrl().contains("Walking")){
 				if(getCharacterPortrait().getImage().impl_getUrl().contains("Left_1")){
 					getCharacterPortrait().setImage(Graphics.createPrince("Walking", "Left", 2));
@@ -65,7 +65,7 @@ public class Prince extends GameObject{ //the object in the game that's called P
 			}
 		}
 		else{
-			if(getCharacterPortrait().getImage().impl_getUrl().contains("Walking")){
+			if(getCharacterPortrait().getImage().impl_getUrl().contains("Walking")){ //displays the images of the prince walking right
 				if(getCharacterPortrait().getImage().impl_getUrl().contains("Right_1")){
 					getCharacterPortrait().setImage(Graphics.createPrince("Walking", "Right", 2));
 				}
@@ -98,7 +98,7 @@ public class Prince extends GameObject{ //the object in the game that's called P
 		}
 	}
 	
-	public void retreat(){
+	public void retreat(){ //prince retreating by displaying the images 
 		if(getX() > standByLocation){
 			if(!getCharacterPortrait().getImage().impl_getUrl().contains("Left")){
 				getCharacterPortrait().setImage(Graphics.createPrince("Walking", "Left", 1));
