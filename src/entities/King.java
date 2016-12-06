@@ -2,7 +2,7 @@ package entities;
 
 import effects.Graphics;
 
-public class King extends GameObject{//This is the creation of the King object. JL
+public class King extends GameObject{//This is the creation of the King object JL
 	private double standByLocation, minX, maxX;
 	
 	private static final double KING_DEFAULT_MAXHEALTH = 150;//This sets the max health of the King. JL
