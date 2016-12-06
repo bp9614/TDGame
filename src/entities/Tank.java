@@ -8,10 +8,10 @@ import effects.Graphics;
 public class Tank extends Fighter{
 	private double standByLocation;
 	
-	private static final double DEFAULT_MAX_HEALTH = 300;
-	private static final double DEFAULT_ATTACK_POWER = 40;
-	private static final double DEFAULT_COOLDOWN_RATE = 6;
-	private static final double DEFAULT_ATTACK_RANGE = 15;
+	private static final double DEFAULT_MAX_HEALTH = 300;//This is the Tanks Max Health. JL
+	private static final double DEFAULT_ATTACK_POWER = 40;//This is the Tanks attack power. JL
+	private static final double DEFAULT_COOLDOWN_RATE = 6;//This is the cool down of how long before the tank can attack again. JL
+	private static final double DEFAULT_ATTACK_RANGE = 15;//This is the range the Tank can attack from. JL
 	
 	public Tank(String banner, double xPosition, double yPosition, double standByLocation) {
 		super(DEFAULT_MAX_HEALTH, DEFAULT_ATTACK_POWER, DEFAULT_COOLDOWN_RATE, DEFAULT_ATTACK_RANGE, 
@@ -20,16 +20,16 @@ public class Tank extends Fighter{
 	}
 
 	@Override
-	public void onDeath() {
+	public void onDeath() {//This tells when the take is dead. JL
 		death();
 		
 	}
 
 	@Override
-	public void attack(GameObject toAttack) {
-		setInAttackAnimation(true);
+	public void attack(GameObject toAttack) {//This function deals with when the Tank is attacking. JL
+		setInAttackAnimation(true);//This sets the Tank into the attack animation.
 		toAttack.onHit(getAttackPower());
-		setCooldown(100);
+		setCooldown(100);//This sets the Tanks attack cool down to 100. JL
 	}
 
 	@Override
@@ -42,21 +42,21 @@ public class Tank extends Fighter{
 			reduceCooldown();
 		}
 		
-		for(Fighter enemy: enemiesOnPath){
+		for(Fighter enemy: enemiesOnPath){//This is to check for enemies who are in attack range. JL
 			if(enemy.getY() == getY()){
-				if(enemy.getX() - getX() < 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
+				if(enemy.getX() - getX() < 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Right")){//This tells the Tank to face right if there is a enemy to the right and he is facing left. JL
 					reverse();
 				}
-				else if(enemy.getX() - getX() > 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Left")){
+				else if(enemy.getX() - getX() > 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Left")){//This tells the Tank to face left if there is a enemy to the left and he is facing Right. JL
 					reverse();
 				}
 				
-				if(enemy.getX() - getX() <= getAttackRange() && enemy.getX() - getX() >= -getAttackRange()){
+				if(enemy.getX() - getX() <= getAttackRange() && enemy.getX() - getX() >= -getAttackRange()){//This tells the Tank if there is a enemy and the cool down is 0 then attack. JL
 					if(getCooldown() == 0){
 						attack(enemy);
 					}
 				}
-				else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){
+				else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){//If the enemy is not within attack range then move towards enemy. JL
 					if(enemy.getX() > getX()){
 						setX(getX() + .75);
 						animation();
@@ -71,17 +71,17 @@ public class Tank extends Fighter{
 			}
 		}
 		
-		if(getBanner().equals("Player")){
+		if(getBanner().equals("Player")){//This tells the Tank to move towards the doors to ascend to the top.
 			if(getY() == PrimeLocations.FIRST_FLOOR_Y){
 				if(getCharacterPortrait().getImage().impl_getUrl().contains("Left")){
 					reverse();
 				}
 				
-				if(getX() + .75 < PrimeLocations.ENEMY_RIGHT_DOOR_X){
+				if(getX() + .75 < PrimeLocations.ENEMY_RIGHT_DOOR_X){//If the Tank is not at the enemy door move towards the door. JL
 					setX(getX() + .75);
 				}
 				else{
-					setX(PrimeLocations.ENEMY_RIGHT_DOOR_X);
+					setX(PrimeLocations.ENEMY_RIGHT_DOOR_X);//If the Tank is at the enemy door go into the door to the second floor. JL
 					ascendStairs();
 				}
 			}
@@ -107,7 +107,7 @@ public class Tank extends Fighter{
 			}
 		}
 		else{
-			if(getY() == PrimeLocations.FIRST_FLOOR_Y){
+			if(getY() == PrimeLocations.FIRST_FLOOR_Y){//If the enemy Tank is at your door it will walk towards the door and ascend the stairs onto the second floor. JL
 				if(getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
 					reverse();
 				}
@@ -147,7 +147,7 @@ public class Tank extends Fighter{
 	}
 	
 	@Override
-	public void move(ArrayList<Fighter> enemiesOnPath, ArrayList<GameObject> royality) {
+	public void move(ArrayList<Fighter> enemiesOnPath, ArrayList<GameObject> royality) {//This tells the tanks to move and attack on the third floor of the castle. JL
 		if(getInAttackAnimation()){
 			animation();
 			return;
@@ -156,7 +156,7 @@ public class Tank extends Fighter{
 			reduceCooldown();
 		}
 		
-		for(Fighter enemy: enemiesOnPath){
+		for(Fighter enemy: enemiesOnPath){//This tells the Tanks to face a certain direction if he is not already. JL
 			if(enemy.getX() - getX() < 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
 				reverse();
 			}
@@ -164,12 +164,12 @@ public class Tank extends Fighter{
 				reverse();
 			}
 			
-			if(enemy.getX() - getX() <= getAttackRange() && enemy.getX() - getX() >= -getAttackRange()){
+			if(enemy.getX() - getX() <= getAttackRange() && enemy.getX() - getX() >= -getAttackRange()){//Tells the Tank to attack if there is a enemy and cool down is 0. JL
 				if(getCooldown() == 0){
 					attack(enemy);
 				}
 			}
-			else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){
+			else if(enemy.getX() - getX() > getAttackRange() || enemy.getX() - getX() < -getAttackRange()){//
 				if(enemy.getX() > getX()){
 					setX(getX() + .75);
 					animation();
