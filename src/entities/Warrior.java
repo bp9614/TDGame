@@ -8,7 +8,7 @@ import effects.Graphics;
 public class Warrior extends Fighter{
 	private double standByLocation;
 	
-	private static final double DEFAULT_MAX_HEALTH = 125; //sets the default for the health for the warrior to 125
+	private static final double DEFAULT_MAX_HEALTH = 125; //sets the default for the health for the warrior to 125.
 	private static final double DEFAULT_ATTACK_POWER = 15; //default for the attack power 
 	private static final double DEFAULT_COOLDOWN_RATE = 15; //defaults for the cool down rate (period before it fights other characters)
 	private static final double DEFAULT_ATTACK_RANGE = 15; //default for how far the warrior can attack 
