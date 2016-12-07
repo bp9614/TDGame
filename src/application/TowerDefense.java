@@ -605,6 +605,37 @@ public final class TowerDefense extends Application{
 	/*
 	 * BP
 	 * ----------------------------------------------------------------------------------------------
+	 * To avoid having objects be created over and over again, we decided to have an inner class that
+	 * initializes menu object at the starting of the application. Texts, buttons, background, 
+	 * images, most are created and are not changed at the beginning. To express that nothing new is
+	 * initialized (only changed), a final modifier is giving to all variables.
+	 * ----------------------------------------------------------------------------------------------
+	 * Before going into this class, I'll define what a few of these do. HBox and VBox separates anything
+	 * adding into them by the specified amount. HBox places everything horizontally and separates 
+	 * everything by that amount. Same goes for VBox except vertically. ImageView allows images to be 
+	 * placed onto the pane to be displayed. Can't be done with just the Image class, must use the 
+	 * ImageView in conjunction. 
+	 * ----------------------------------------------------------------------------------------------
+	 * The instructions menu is text combined with the ability to click on it to move to the next
+	 * set of instructions. However, I will have to say that that was not a great idea and should've
+	 * went with a next page/previous page button option instead as the former isn't too obvious.
+	 * ----------------------------------------------------------------------------------------------
+	 * For the settings/options menu, you will see three options, one to mute the game, one to change
+	 * just the volume level, and one to change how fast the game plays. One trick used for the 
+	 * volume level is two bars/rectangles at the same location. When you move the volume bar less than
+	 * 100%, there is one bar to act as the volume bar, and the other to act as the missing volume level.
+	 * ----------------------------------------------------------------------------------------------
+	 * Credits Menu is simply text.
+	 * ----------------------------------------------------------------------------------------------
+	 * The game over menu... Is the most extensive menu out of the six menus (resume is not included).
+	 * The gave over menu requires the game to be finished in order to gather data. In short,
+	 * what it does is confirms how many members of the royal family are killed, how many of each
+	 * soldier were deployed, how many coins total were distributed, and (probably should've put this
+	 * first) who won. A lot of information to process to display all of these.
+	 * ----------------------------------------------------------------------------------------------
+	 * Pause menu... Pretty simple, resets a few elements on the screen before stopping the timeline,
+	 * and gives options to either resume, perform option/instruction menu things, or return to the main
+	 * menu.
 	 */
 	private class Menu{
 		private final Text title, decreaseVolume, increaseVolume, isMuteOrNot, volumeLevel, currentSpeed, 
@@ -656,7 +687,7 @@ public final class TowerDefense extends Application{
 			instructionsText[1] = new Text(340, 260, "");
 			
 			
-			creditsText = new Text(280, 300, "");
+			creditsText = new Text(318, 320, "");
 			
 			
 			pauseBox = new Rectangle(170, 250, Color.GRAY);
@@ -718,6 +749,12 @@ public final class TowerDefense extends Application{
 			setEvents();
 		}
 		
+		/*
+		 * BP
+		 * ---------------------------------------------------------------------------------------
+		 * As before, the next two methods are to set the default for every. Mostly fonts, locations,
+		 * texts, etc. are given defaults here.
+		 */
 		public void setDefaults(){
 			title.setFont(Font.font("Kunstler Script", FontWeight.BOLD, 80));
 			
@@ -761,7 +798,7 @@ public final class TowerDefense extends Application{
 			currentInstructions.setFont(new Font(30));
 			instructionsText[0].setFont(new Font(20));
 			instructionsText[0].setText("The main goal of this game is to storm the enemy castle \n and defeat the royal family.\n\n"
-					+ "To place down the soldier you want, select from the character menu (>>)\nand choose one of the shown locations.\n\n"
+					+ "To place down the soldier you want, select from the\ncharacter menu (>>) and choose one of the shown locations.\n\n"
 					+ "You have 3 soldier types: Swordsmen, Archer, and Tank\n\n"
 					+ "Swordsmen are normal swordsmen that will run and attack \nenemies right in front of them\n\n"
 					+ "Archers are ranged soldiers that attack from the rear\n\n");
@@ -847,6 +884,10 @@ public final class TowerDefense extends Application{
 		}
 		
 		private void setEvents(){
+			/*
+			 * There are five start menu buttons, each one specifying what they do and what methods they
+			 * are going to call.
+			 */
 			startMenuButtons[0].setOnAction(e->{
 				removeMenus();
 				newGame();
@@ -868,7 +909,18 @@ public final class TowerDefense extends Application{
 				creditsMenu();
 			});
 			
-			
+			/*
+			 * BP
+			 * --------------------------------------------------------------------------------------
+			 * decreaseVolume on screen will look like a - sign. When you press on it, decreases the
+			 * volume's level (by 1) and change the looks on screen (the volume bar and the sign under
+			 * the volume bar that says the volume). Similar to the increaseVolume which is a + sign.
+			 * --------------------------------------------------------------------------------------
+			 * Click on a certain spot and the volume will drop/increase to that volume level, it depends
+			 * on the x location. With mouse dragged, I can implement the effect of dragging the
+			 * volume bar to a lower/higher volume. It also continuously updates it so the user
+			 * can see the volume decrease/increase as they drag it along.
+			 */
 			decreaseVolume.setOnMouseClicked(e->{
 				settings.decreaseVolume();
 				volumeBar.setWidth(settings.getVolume() * 3);
@@ -899,6 +951,13 @@ public final class TowerDefense extends Application{
 				volumeBar.setWidth(settings.getVolume() * 3);
 				volumeLevel.setText("Current Volume Level: " + settings.getVolume() + "%");
 			});
+			
+			/*
+			 * BP
+			 * ------------------------------------------------------------------------------------
+			 * Just a button that will swap the volume from on to off. Click on it, reflects changes
+			 * in the button's text, the actual text, and the music (if we put any in).
+			 */
 			muteOrUnmute.setOnAction(e->{
 				if(settings.isMute()){
 					settings.changeMute();
@@ -911,6 +970,13 @@ public final class TowerDefense extends Application{
 					isMuteOrNot.setText("Is The Game's Volume Muted: Yes");
 				}
 			});
+			
+			/*
+			 * BP
+			 * ---------------------------------------------------------------------------------
+			 * Depending on the speed option you chose, reflects that in the settings, text, and when
+			 * your game crashes cause you chose 8x when I warned you not to.
+			 */
 			changeSpeeds[0].setOnAction(e->{
 				settings.setSpeed(1);
 				currentSpeed.setText("Current Speed: " + settings.getSpeed() + "x");
@@ -933,7 +999,11 @@ public final class TowerDefense extends Application{
 			});
 			
 			
-			
+			/*
+			 * BP
+			 * ---------------------------------------------------------------------------
+			 * If you clicked on this set of instructions, now we switch to the other set.
+			 */
 			instructionsText[0].setOnMouseClicked(e->{
 				onScene.getChildren().remove(instructionsText[0]);
 				onScene.getChildren().add(instructionsText[1]);
@@ -998,18 +1068,31 @@ public final class TowerDefense extends Application{
 		public void instructionsMenu(){
 			currentInstructions.setText("1/2");
 			
-			onScene.getChildren().addAll(currentInstructions, instructionsText[0], returnToStartMenu);
+			onScene.getChildren().addAll(menuBox, currentInstructions, instructionsText[0], returnToStartMenu);
 		}
 		
 		public void optionsMenu(){		
-			onScene.getChildren().addAll(muteOrUnmute, isMuteOrNot, volumeLevel, decreaseVolume, 
+			onScene.getChildren().addAll(menuBox, muteOrUnmute, isMuteOrNot, volumeLevel, decreaseVolume, 
 					increaseVolume, unfilledBar, volumeBar, rowOfButtons, currentSpeed, returnToStartMenu);
 		}
 		
 		public void creditsMenu(){
-			onScene.getChildren().addAll(creditsText, returnToStartMenu);
+			onScene.getChildren().addAll(menuBox, creditsText, returnToStartMenu);
 		}
 		
+		/*
+		 * BP
+		 * --------------------------------------------------------------------------------------
+		 * This is the most tedious menu to implement...
+		 * First, this is the one of the only menus that will change its information almost every time
+		 * it is visited (because most games won't be the same). So, if no royal members are left
+		 * in the player's list, the player loses, vice versa for the enemy. Total number of coins
+		 * is a function within the player class thus is easily done. This is where it gets a little
+		 * tricky. First, defaults every royal member as alive (although I could set all of the
+		 * losing player's as dead/killed). To get the number of soldiers deployed, an array is
+		 * created to store a number every time a certain soldier is found. When a royal member is
+		 * found (which would be in the listOfKilledCharacters), they are marked as dead.
+		 */
 		public void gameOverMenu(){
 			if(player.getRoyality().size() == 0){
 				winOrLose.setText("YOU LOST");
@@ -1078,6 +1161,13 @@ public final class TowerDefense extends Application{
 					enemyTitle, gameStats_Images_Player, gameStats_Images_Enemy, gameStats_Text_Player, gameStats_Text_Enemy);
 		}
 		
+		/*
+		 * BP
+		 * --------------------------------------------------------------------------------------
+		 * How does it do this? Well, using instanceof, the program will check if this GameObject is 
+		 * actually one of its (specific) subclasses. Changes are either reflected in the array, or
+		 * if it is a royal family member, marked as dead.
+		 */
 		private void checkCharacters(GameObject character, int[] array){
 			if(character instanceof Warrior){
 				array[0]+=1;
@@ -1122,10 +1212,23 @@ public final class TowerDefense extends Application{
 			}
 		}
 		
+		/*
+		 * BP
+		 * -------------------------------------------------------------------------------------------
+		 * Remove screen is merely a nuke for the screen. Essentially removes all objects in the pane
+		 * (actually it does since all the objects (save for the background) is on the pane).
+		 */
 		public void removeMenus(){
 			onScene.getChildren().clear();
 		}
 		
+		/*
+		 * BP
+		 * --------------------------------------------------------------------------------------
+		 * Pauses the game, and removes most objects on the pane except for character images.
+		 * Removes any onScene event as a precaution in case the user was in the middle of adding a new
+		 * character.
+		 */
 		public void pause(){
 			gameTimeline.stop();
 			
