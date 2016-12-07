@@ -33,9 +33,18 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-/*
+/* 
+ * BP
+ * -----------------------------------------------------------------------------------------------------
  * The project/GUI will be using JavaFX. Built-in Java library. README is available if you can't run it.
- * All JavaFX applications must extend Application to run.
+ * All JavaFX applications must extend Application to run. 
+ * -----------------------------------------------------------------------------------------------------
+ * One predominant action you may see within this and most JavaFX classes are the lambda notation (for 
+ * JavaFX), or e->{}. One example of the lambda notation in its full form is where the Timeline is 
+ * initialized. So, lambda notion consists of an EventHandler, which as the name may state, handles events. 
+ * It is very similar to the robocode where if something happens, an event is triggered and a certain
+ * method (the handle method) is called. The lambda notation is just quicker way of writing the 
+ * EventHandlers out (and what happens in that event). 
  * -----------------------------------------------------------------------------------------------------
  * The TowerDefense class is the main source of operations for this game. It carries the screen (in JavaFX
  * the Stage), the scene, which is the medium for the pane and is what the stage shows, and the pane, 
@@ -57,6 +66,21 @@ import javafx.util.Duration;
  * include when you are adding in enemies, you'll see a button to click, which then shows you an interface
  * to click and choose what soldier to place. Also on that screen, shows you where to click to add the
  * soldiers to.
+ * ------------------------------------------------------------------------------------------------------
+ * FOR VARIABLES BELOW
+ * ------------------------------------------------------------------------------------------------------
+ * isGamePlay is used to determine, in the start menu, whether to allow the user to continue where they
+ * left off in their game (only if you exited to the start menu, not if you reset the application).
+ * ------------------------------------------------------------------------------------------------------
+ * gameTimeline is the game. A timeline is allows animations, or even certain actions, to be done in a 
+ * repetition as long as the timeline is playing. In this program, it controls movement, character 
+ * actions, character addition/removals, and money addition.
+ * ------------------------------------------------------------------------------------------------------
+ * numberOfCoinsText is a text that is shown when you're playing the game to show how much money you
+ * currently have.
+ * ------------------------------------------------------------------------------------------------------
+ * player and enemy, the two people (well, one is an algorithm) that will be playing this game. The players
+ * contain every game object piece.
  */
 public final class TowerDefense extends Application{
 	private Scene scene;
@@ -64,7 +88,7 @@ public final class TowerDefense extends Application{
 	private Settings settings;
 	private Timeline gameTimeline;
 	private boolean isGamePlaying;
-	private String addThisSoldier;
+	private String addThisSoldier; 
 	private Player player, enemy;
 	private final Menu menus;
 	private final Text numberOfCoinsText, coinCost_1, coinCost_2, coinCost_3;
@@ -112,6 +136,8 @@ public final class TowerDefense extends Application{
 	}
 	
 	/*
+	 * BP
+	 * -----------------------------------------------------------------------------------------------------
 	 * To avoid having an overload of materials being initialized in the constructor, this and one other
 	 * method will set all the default values (and possible events when clicked on).
 	 */
@@ -120,6 +146,8 @@ public final class TowerDefense extends Application{
 		numberOfCoinsText.setFont(new Font(15));
 		
 		/*
+		 * BP
+		 * -----------------------------------------------------------------------------------------------------
 		 * All interfaces are outlined in black to separate them. Gray was a nice color to use for the
 		 * interface, opacity (transparency) is lowered from 1 (non-transparent) so that the player
 		 * can still see the castle/royal family through the interface. Images below go with the interface,
@@ -152,7 +180,18 @@ public final class TowerDefense extends Application{
 		addToArmyButton.setLayoutX(1152);
 		addToArmyButton.setLayoutY(115);
 		
-		
+		/*
+		 * BP
+		 * -----------------------------------------------------------------------------------------------------
+		 * If any of the, well, rectangles are clicked on, that rectangle is changed from light gray to
+		 * gray which would alert the player this is the current option. If any of the rectangles are
+		 * gray, don't want to confuse the player and have them think that two are checked for some 
+		 * reason. 
+		 * -------------------------------------------------------------------------------------------
+		 * Second functionality of these are that they alert the system which soldier to add. Although,
+		 * I could've done this by looking for which one of these interfaces was gray, which would
+		 * remove the need for the string indicating which to add and having to manage this variable.
+		 */
 		characterInterface_1.setOnMouseClicked(e->{
 			addThisSoldier = "Archer";
 			characterInterface_1.setFill(Color.GRAY);;
@@ -172,6 +211,19 @@ public final class TowerDefense extends Application{
 			characterInterface_3.setFill(Color.GRAY);
 		});
 		
+		/*
+		 * BP
+		 * ----------------------------------------------------------------------------------------------
+		 * This is to open up the character addition interface/show where to add characters. Also adds 
+		 * and removes any objects for the background depending on the current text of the army button 
+		 * (>> is closed, << is open). Since the adding of the army event is based on clicking on the pane,
+		 * when the option is closed, the pane's event has to be removed (by setting the event to null),
+		 * so that the user can't accidentally click that area again and add a new character to the spot.
+		 * ----------------------------------------------------------------------------------------------
+		 * This is one of the examples of the lambda notation within this class. SetOnAction means when
+		 * that button is clicked, just like a MouseClicked event (which this can also have), execute
+		 * whatever is within this block. 
+		 */
 		addToArmyButton.setOnAction(e->{
 			if(addToArmyButton.getText().equals(">>")){
 				addToArmyButton.setText("<<");
@@ -192,6 +244,16 @@ public final class TowerDefense extends Application{
 		});
 	}
 	
+	/*
+	 * BP
+	 * ----------------------------------------------------------------------------------------------
+	 * A few things need to be set up before the game can start. For a new game, every changable value
+	 * must be reset, which includes resetting the timeline, every player, possible texts, so that
+	 * a completely new game can be played. Next, since the game is playing now (well, a little after.
+	 * Timelime has not played yet), the background can be changed to the non-blurry background, showing
+	 * the user the castle and the ground. Any characters that the player and enemy have are added onto
+	 * the pane to be displayed and the pause event (options shown when you press the escape key).
+	 */
 	private void newGame(){
 		reset();
 		
@@ -205,6 +267,11 @@ public final class TowerDefense extends Application{
 		setPauseEvent();
 	}
 	
+	/*
+	 * Very similar to the new game except the game isn't reset (so any previous characters will be
+	 * added back in), and isGamePlaying does not need to be set to true since it was already set with
+	 * the newGame method (will not be changed until the game ends).
+	 */
 	private void continueGame(){
 		onScene.setBackground(Graphics.BACKGROUND);
 		onScene.getChildren().addAll(addToArmyButton, Graphics.createCoin(1095, 25), numberOfCoinsText);
@@ -215,6 +282,16 @@ public final class TowerDefense extends Application{
 		setPauseEvent();
 	}
 	
+	/*
+	 * BP
+	 * ----------------------------------------------------------------------------------------------
+	 * This particular event has to be given to the scene, only because key pressed events pertaining 
+	 * not to (very) certain objects will all go to the scene. If the pane has a key pressed event ->
+	 * ignored cause the scene takes higher precedence, even if the scene doesn't have an for key pressing.
+	 * ----------------------------------------------------------------------------------------------
+	 * What is function does is that it stops the game (in the pause class) and opens up the pause
+	 * menu, then it sets this event (the onKeyPressed) to the resume event.
+	 */
 	private void setPauseEvent(){
 		scene.setOnKeyPressed(e->{
 			if(e.getCode().equals(KeyCode.ESCAPE)){
@@ -224,6 +301,13 @@ public final class TowerDefense extends Application{
 		});
 	}
 	
+	/*
+	 * BP
+	 * ----------------------------------------------------------------------------------------------
+	 * As the name implies, if you press escape while any sort of pause menu is up (not the main start 
+	 * menu, credits, etc.), which includes the smaller options and instructions menu, resumes the game
+	 * and set the scene's escape/onKeyPressed event back to the pause event.
+	 */
 	private void setResumeEvent(){
 		scene.setOnKeyPressed(e->{
 			if(e.getCode().equals(KeyCode.ESCAPE)){
@@ -233,6 +317,15 @@ public final class TowerDefense extends Application{
 		});
 	}
 	
+	/*
+	 * BP
+	 * ----------------------------------------------------------------------------------------------
+	 * So, this is the event for the pane (can also be for the scene, which is unlike for the keyPressed 
+	 * event, which has to be on the scene) for adding characters/soldiers into the game. If you
+	 * click on certain locations, adds a new soldier to the location you specified (well, certain
+	 * location). These are the same locations shown within the rectangles in the background when
+	 * the character addition interface is open.
+	 */
 	private void setAddToArmyEvent(){
 		onScene.setOnMouseClicked(e->{
 			if(e.getY() >= 265 && e.getY() <= 320){
@@ -253,12 +346,20 @@ public final class TowerDefense extends Application{
 					addSoldier("Outside");
 				}
 			}
-			else{
-				System.out.println("?");
-			}
 		});
 	}
 	
+	/*
+	 * BP
+	 * ----------------------------------------------------------------------------------------------
+	 * So, this adds a soldier to the player's army, given the location and which character you've
+	 * chosen to use. As long as you have enough money to buy it, money is deducted from your current,
+	 * and a new character is placed into the army(list). To make the enemy appear instantly after 
+	 * buying the soldier (if this option wasn't here, would have to wait for the next frame of the
+	 * timeline to update that the character is there), had the player return that new character so that
+	 * the program could add that character('s image) immediately. Same with the text for the amount
+	 * of money you have. Updates it here so that the change is reflected immediately.
+	 */
 	private void addSoldier(String location){
 		if(addThisSoldier.equals("Archer") && player.getNumberOfCoins() >= 20){
 			player.changeNumberOfCoins(-20);
@@ -277,20 +378,50 @@ public final class TowerDefense extends Application{
 		}
 	}
 	
+	/*
+	 * BP
+	 * ----------------------------------------------------------------------------------------------
+	 * As stated before, this is what makes the game run, an event that will run at 30 frames per second
+	 * at its default (up to 240 fps, but in actuality, probably will get crash your computer), executing
+	 * this handle method every frame.
+	 * ----------------------------------------------------------------------------------------------
+	 * As an overview, what happens every turn is that it starts by increasing the number of coins for both
+	 * players, then the enemy makes their move (whatever they decide), then attempts to places any 
+	 * character that isn't on the screen that is supposed to be, has every character (that is not dead) 
+	 * perform an action, and then checks if the player has won.
+	 * ----------------------------------------------------------------------------------------------
+	 * Why this order?
+	 * If the enemy does get an extra coin this turn, allows it to use that new coin immediately.
+	 * When the enemy places a character, it isn't automatically placed on the screen like the user, 
+	 * instead, has to have the placeCharacter method place those characters. As soon as a character is
+	 * placed on the screen, they can move. Thus, has to be done after the enemy (may) place a soldier.
+	 * RemoveDeadCharacters must be after moveCharacters since moveCharacters includes attacking (and
+	 * possibly killing). If this was before moveCharacters, their dead body will be there for another
+	 * turn. Finally, hasWon has to be last as if it were before removeDeadCharacters(), there will be
+	 * an extra frame to notice that everyone in the royal family has died.
+	 */
 	private void setGameTimeline(){
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>(){
 			private int giveCoins = 1;
 			
 			@Override
 			public void handle(ActionEvent e) {
-				((Enemy) enemy).makeMove(player);
 				increaseCoins();
+				((Enemy) enemy).makeMove(player);
 				placeCharacters();
 				moveCharacters();
 				removeDeadCharacters();
 				hasWon();
 			}
 			
+			/*
+			 * BP
+			 * ------------------------------------------------------------------------------------
+			 * Consists of two parts, removing the dead characters from the ArrayLists, and removing them
+			 * from the screen. May have noticed that the for loop may be a bit different than normal.
+			 * C++ has it, using a for each loop so that there is no need for the common for(int i = ...),
+			 * instead can be shorter using its iterator.
+			 */
 			public void removeDeadCharacters(){
 				player.removeDeadCharacters();
 				enemy.removeDeadCharacters();
@@ -304,6 +435,12 @@ public final class TowerDefense extends Application{
 				}
 			}
 			
+			/*
+			 * BP
+			 * ------------------------------------------------------------------------------------
+			 * Checks every single group of characters to use if they can be added onto the scene. If
+			 * they are already on the scene, well... Ignore them.
+			 */
 			public void placeCharacters(){
 				for(GameObject royality: player.getRoyality()){
 					if(!onScene.getChildren().contains(royality.getCharacterPortrait())){
@@ -364,6 +501,12 @@ public final class TowerDefense extends Application{
 				enemy.moveAllCharacters(player);
 			}
 			
+			/*
+			 * BP
+			 * -------------------------------------------------------------------------------------
+			 * After 15 frames, increases both players coins by 1, reflects the change on the coin text,
+			 * and resets the count.
+			 */
 			public void increaseCoins(){
 				if(giveCoins == 15){
 					player.changeNumberOfCoins(1);
@@ -376,6 +519,13 @@ public final class TowerDefense extends Application{
 				}
 			}
 			
+			/*
+			 * BP
+			 * ----------------------------------------------------------------------------------
+			 * If every royal member has died for any player, immediate ends the game, removes any
+			 * possible event and objects on the pane, and notifies the system that the game has ended 
+			 * (through the isGamePlaying and by calling the gaveOverMenu).
+			 */
 			public void hasWon(){
 				if(player.getRoyality().size() == 0 || enemy.getRoyality().size() == 0){
 					isGamePlaying = false;
@@ -387,6 +537,15 @@ public final class TowerDefense extends Application{
 			}
 		};
 		
+		/*
+		 * BP
+		 * ---------------------------------------------------------------------------------------
+		 * Duration.millis(...) sets up the delay for each frame. 1000/30 is every second = 30 frames,
+		 * or 30 FPS. Increasing the rate increases the game speed... Which could blow up the game due
+		 * to too many things happening.
+		 * ---------------------------------------------------------------------------------------
+		 * Don't want the game to randomly stop, so it runs indefinitely until it is called to stop.
+		 */
 		gameTimeline = new Timeline(new KeyFrame(Duration.millis(1000.0/30.0), event));
 		gameTimeline.setCycleCount(Timeline.INDEFINITE);
 		gameTimeline.setRate(settings.getSpeed());
@@ -601,14 +760,14 @@ public final class TowerDefense extends Application{
 			
 			currentInstructions.setFont(new Font(30));
 			instructionsText[0].setFont(new Font(20));
-			instructionsText[0].setText("The main goal of this game is to storm the enemy castle \n and defeat the royal family\n\n"
-					+ "To place down the soldier you want select and drag to a\n location in the castle\n\n"
+			instructionsText[0].setText("The main goal of this game is to storm the enemy castle \n and defeat the royal family.\n\n"
+					+ "To place down the soldier you want, select from the character menu (>>)\nand choose one of the shown locations.\n\n"
 					+ "You have 3 soldier types: Swordsmen, Archer, and Tank\n\n"
 					+ "Swordsmen are normal swordsmen that will run and attack \nenemies right in front of them\n\n"
 					+ "Archers are ranged soldiers that attack from the rear\n\n");
 			instructionsText[1].setFont(new Font(20));
 			instructionsText[1].setText("Tanks are heavy soldiers and are there to take \ndamage and protect your Swordsmen and archers\n\n"
-					+ "You gain gold from killing enemies and over time");
+					+ "You gain gold over time.\n\n");
 			
 			
 			creditsText.setFont(new Font(30));
