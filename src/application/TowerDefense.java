@@ -602,6 +602,10 @@ public final class TowerDefense extends Application{
 		}
 	}
 	
+	/*
+	 * BP
+	 * ----------------------------------------------------------------------------------------------
+	 */
 	private class Menu{
 		private final Text title, decreaseVolume, increaseVolume, isMuteOrNot, volumeLevel, currentSpeed, 
 			currentInstructions, creditsText, winOrLose, gameStatsTitle, playerTitle, enemyTitle,
