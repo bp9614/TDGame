@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Settings {
-	private int volume;
+	private int volume; //declaring volume as a number 
 	private boolean isMute;
 	private int speed;
 	
