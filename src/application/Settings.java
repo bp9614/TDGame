@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Settings {
-    private int speed; //speed is an integer because speed is controlled by a number like 
+    private int speed; //speed is an integer because speed is controlled by a number like.
 	private int volume; //declaring volume as a number 
 	private boolean isMute; //is mute is a boolean because it can only be a true or a false, not a number 1x
 	
