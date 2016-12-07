@@ -182,37 +182,6 @@ public final class TowerDefense extends Application{
 		
 		/*
 		 * BP
-		 * -----------------------------------------------------------------------------------------------------
-		 * If any of the, well, rectangles are clicked on, that rectangle is changed from light gray to
-		 * gray which would alert the player this is the current option. If any of the rectangles are
-		 * gray, don't want to confuse the player and have them think that two are checked for some 
-		 * reason. 
-		 * -------------------------------------------------------------------------------------------
-		 * Second functionality of these are that they alert the system which soldier to add. Although,
-		 * I could've done this by looking for which one of these interfaces was gray, which would
-		 * remove the need for the string indicating which to add and having to manage this variable.
-		 */
-		characterInterface_1.setOnMouseClicked(e->{
-			addThisSoldier = "Archer";
-			characterInterface_1.setFill(Color.GRAY);;
-			characterInterface_2.setFill(Color.LIGHTGRAY);
-			characterInterface_3.setFill(Color.LIGHTGRAY);
-		});
-		characterInterface_2.setOnMouseClicked(e->{
-			addThisSoldier = "Warrior";
-			characterInterface_1.setFill(Color.LIGHTGRAY);;
-			characterInterface_2.setFill(Color.GRAY);
-			characterInterface_3.setFill(Color.LIGHTGRAY);
-		});
-		characterInterface_3.setOnMouseClicked(e->{
-			addThisSoldier = "Tank";
-			characterInterface_1.setFill(Color.LIGHTGRAY);;
-			characterInterface_2.setFill(Color.LIGHTGRAY);
-			characterInterface_3.setFill(Color.GRAY);
-		});
-		
-		/*
-		 * BP
 		 * ----------------------------------------------------------------------------------------------
 		 * This is to open up the character addition interface/show where to add characters. Also adds 
 		 * and removes any objects for the background depending on the current text of the army button 
@@ -325,26 +294,47 @@ public final class TowerDefense extends Application{
 	 * click on certain locations, adds a new soldier to the location you specified (well, certain
 	 * location). These are the same locations shown within the rectangles in the background when
 	 * the character addition interface is open.
+	 * -----------------------------------------------------------------------------------------------------
+	 * If any of the, well, rectangles are clicked on, that rectangle is changed from light gray to
+	 * gray which would alert the player this is the current option. If any of the rectangles are
+	 * gray, don't want to confuse the player and have them think that two are checked for some 
+	 * reason. 
+	 * -------------------------------------------------------------------------------------------
+	 * Second functionality of these are that they alert the system which soldier to add. Although,
+	 * I could've done this by looking for which one of these interfaces was gray, which would
+	 * remove the need for the string indicating which to add and having to manage this variable.
 	 */
 	private void setAddToArmyEvent(){
 		onScene.setOnMouseClicked(e->{
-			if(e.getY() >= 265 && e.getY() <= 320){
-				if(e.getX() >= 187 && e.getX() <= 286){
-					addSoldier("Third Floor");
-				}
+			if(e.getY() >= 265 && e.getY() <= 320 && e.getX() >= 187 && e.getX() <= 286){
+				addSoldier("Third Floor");
 			}
-			else if(e.getY() >= 460 && e.getY() <= 505){
-				if(e.getX() >= 194 && e.getX() <= 283){
-					addSoldier("Second Floor");
-				}
+			else if(e.getY() >= 460 && e.getY() <= 505 && e.getX() >= 194 && e.getX() <= 283){
+				addSoldier("Second Floor");
 			}
-			else if(e.getY() >= 665 && e.getY() <= 715){
-				if(e.getX() >= 189 && e.getX() <= 294){
-					addSoldier("First Floor");
-				}
-				else if(e.getX() >= 330 && e.getX() <= 440){
-					addSoldier("Outside");
-				}
+			else if(e.getY() >= 665 && e.getY() <= 715 && e.getX() >= 189 && e.getX() <= 294){
+				addSoldier("First Floor");
+			}
+			else if(e.getY() >= 665 && e.getY() <= 715 && e.getX() >= 330 && e.getX() <= 440){
+				addSoldier("Outside");
+			}
+			else if(e.getX() >= 1003 && e.getX() <= 1153 && e.getY() >= 115 && e.getY() < 195){
+				addThisSoldier = "Archer";
+				characterInterface_1.setFill(Color.GRAY);;
+				characterInterface_2.setFill(Color.LIGHTGRAY);
+				characterInterface_3.setFill(Color.LIGHTGRAY);
+			}
+			else if(e.getX() >= 1003 && e.getX() <= 1153 && e.getY() >= 195 && e.getY() < 275){
+				addThisSoldier = "Warrior";
+				characterInterface_1.setFill(Color.LIGHTGRAY);;
+				characterInterface_2.setFill(Color.GRAY);
+				characterInterface_3.setFill(Color.LIGHTGRAY);
+			}
+			else if(e.getX() >= 1003 && e.getX() <= 1153 && e.getY() >= 275 && e.getY() < 355){
+				addThisSoldier = "Tank";
+				characterInterface_1.setFill(Color.LIGHTGRAY);;
+				characterInterface_2.setFill(Color.LIGHTGRAY);
+				characterInterface_3.setFill(Color.GRAY);
 			}
 		});
 	}
@@ -551,6 +541,12 @@ public final class TowerDefense extends Application{
 		gameTimeline.setRate(settings.getSpeed());
 	}
 	
+	/*
+	 * BP
+	 * ---------------------------------------------------------------------------------------
+	 * The add characters is actually outside the event file only because characters will immediately need 
+	 * to be added onto the pane either when clicking for a new game or to continue the game.
+	 */
 	private void addCharacters(){
 		for(GameObject royality: player.getRoyality()){
 			if(!onScene.getChildren().contains(royality.getCharacterPortrait())){
