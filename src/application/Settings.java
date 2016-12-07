@@ -8,19 +8,19 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Settings {
+    private int speed; //speed is an integer because speed is controlled by a number like 
 	private int volume; //declaring volume as a number 
-	private boolean isMute;
-	private int speed;
+	private boolean isMute; //is mute is a boolean because it can only be a true or a false, not a number 1x
 	
-	private static final int DEFAULT_VOLUME = 100;
-	private static final boolean DEFAULT_ISMUTE = false;
-	private static final int DEFAULT_SPEED = 1;
+	private static final int DEFAULT_VOLUME = 100; //volume is set to 100 as a default in case the user didn't know there is music with the game
+	private static final boolean DEFAULT_ISMUTE = false; //is mute is set to false because the volume is defaulted to 100 so the music cannot be mute 
+	private static final int DEFAULT_SPEED = 1; //setting the default speed to 1 so the game will go slowly enough for the user to see 
 	
 	public Settings(){
 		this(DEFAULT_VOLUME, DEFAULT_ISMUTE, DEFAULT_SPEED);
 	}
 	
-	public Settings(int volume, boolean isMute, int speed){
+	public Settings(int volume, boolean isMute, int speed){ 
 		this.volume = volume;
 		this.isMute = isMute;
 		this.speed = speed;
@@ -32,47 +32,53 @@ public class Settings {
 	
 	public void setVolume(int volume){
 		if(volume >= 0 && volume <= 100){
-			this.volume = volume;
+			this.volume = volume; //if the user chose a volume number between 0 and 100, then set the volume to that number
 		}
 		else if(volume < 0){
-			this.volume = 0;
-		}
+			this.volume = 0; //if the user tried to change the volume number to less than 0, then automatically set the volume to 0 
+		} 
 		else{
-			this.volume = 100;
+			this.volume = 100; //default volume is 100 
 		}
 	}
 	
 	public void setSpeed(int speed){
 		if(speed > 0){
-			this.speed = speed;
+			this.speed = speed; //if the user chooses a speed from the options, then set the speed to the chosen option
 		}
 		else{
-			this.speed = 1;
+			this.speed = 1; //set the default speed to 1 
 		}
 	}
 	
 	
 	public void increaseVolume(){
 		if(volume < 100){
-			volume++;
+			volume++; //allow the user to only decrease the volume number, users can't go past a volume of 100 which is the maximum
 		}
 	}
 	
 	public void decreaseVolume(){
 		if(volume > 0){
-			volume--;
+			volume--; //only decrease the number until the volume reaches to 0 
 		}
 	}
 	
 	public void changeMute(){
 		if(isMute){
-			isMute = false;
+			isMute = false; //can set to false if the user chooses the option of mute
 		}
 		else{
-			isMute = true;
+			isMute = true; //if the volume isn't muted, then it is automatically set to mute
 		}
 	}
 	
+	/*
+	 * BP
+	 * ------------------------------------------------------------------------------------------
+	 * Alright, how does this load up settings? So, using scanner, which can do file output, we know where
+	 * each input is, so we can get the next values can set them to the values to the correct values.
+	 */
 	public void loadSettings(){
 		try {
 			Scanner settingsFile = new Scanner(new File("Settings.txt"));
