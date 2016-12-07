@@ -73,6 +73,12 @@ public class Settings {
 		}
 	}
 	
+	/*
+	 * BP
+	 * ------------------------------------------------------------------------------------------
+	 * Alright, how does this load up settings? So, using scanner, which can do file output, we know where
+	 * each input is, so we can get the next values can set them to the values to the correct values.
+	 */
 	public void loadSettings(){
 		try {
 			Scanner settingsFile = new Scanner(new File("Settings.txt"));
