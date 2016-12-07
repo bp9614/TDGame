@@ -8,19 +8,19 @@ import effects.Graphics;
 public class Warrior extends Fighter{
 	private double standByLocation;
 	
-	private static final double DEFAULT_MAX_HEALTH = 125;
-	private static final double DEFAULT_ATTACK_POWER = 15;
-	private static final double DEFAULT_COOLDOWN_RATE = 15;
-	private static final double DEFAULT_ATTACK_RANGE = 15;
+	private static final double DEFAULT_MAX_HEALTH = 125; //sets the default for the health for the warrior to 125
+	private static final double DEFAULT_ATTACK_POWER = 15; //default for the attack power 
+	private static final double DEFAULT_COOLDOWN_RATE = 15; //defaults for the cool down rate (period before it fights other characters)
+	private static final double DEFAULT_ATTACK_RANGE = 15; //default for how far the warrior can attack 
 	
-	public Warrior(String banner, double xPosition, double yPosition, double standByLocation) {
+	public Warrior(String banner, double xPosition, double yPosition, double standByLocation) { //setting the positions via the grid x and y location
 		super(DEFAULT_MAX_HEALTH, DEFAULT_ATTACK_POWER, DEFAULT_COOLDOWN_RATE, DEFAULT_ATTACK_RANGE, 
 				banner, Graphics.createWarrior("Idle", "Right", 0), xPosition, yPosition);
 		this.standByLocation = standByLocation;
 	}
 
 	@Override
-	public void onDeath() {
+	public void onDeath() { //when the character dies, the character disappears from the screen
 		death();
 		
 	}
@@ -42,7 +42,7 @@ public class Warrior extends Fighter{
 			reduceCooldown();
 		}
 		
-		for(Fighter enemy: enemiesOnPath){
+		for(Fighter enemy: enemiesOnPath){ //if the enemies are close by either attack or run away 
 			if(enemy.getY() == getY()){
 				if(enemy.getX() - getX() < 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
 					reverse();
@@ -183,7 +183,7 @@ public class Warrior extends Fighter{
 			return;
 		}
 		
-		for(GameObject royalFamily: royality){
+		for(GameObject royalFamily: royality){ //if the royalty is close by and the enemy is closeby too, then attack and protect
 			if(royalFamily.getX() - getX() < 0 && getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
 				reverse();
 			}
@@ -230,7 +230,7 @@ public class Warrior extends Fighter{
 	}
 	
 	@Override
-	public void defend(ArrayList<Fighter> enemiesOnPath) {
+	public void defend(ArrayList<Fighter> enemiesOnPath) { //defend the king, queens and etc. if the enemy is close 
 		if(getInAttackAnimation()){
 			animation();
 			return;
@@ -274,7 +274,7 @@ public class Warrior extends Fighter{
 	}
 
 	@Override
-	public void retreat() {
+	public void retreat() { //retreat if the enemies are too much for the one warrior to fight 
 		if(getX() != standByLocation){
 			if(getX() > standByLocation){
 				if(getCharacterPortrait().getImage().impl_getUrl().contains("Right")){
@@ -352,7 +352,7 @@ public class Warrior extends Fighter{
 	}
 
 	@Override
-	public void ascendStairs() {
+	public void ascendStairs() { //allowing the characters to go up the stairs depending on where the user chooses to place the warrior 
 		if(getY() == PrimeLocations.FIRST_FLOOR_Y){
 			setY(PrimeLocations.SECOND_FLOOR_Y);
 		}
@@ -364,7 +364,7 @@ public class Warrior extends Fighter{
 	@Override
 	public void move(){}
 
-	@Override
+	@Overrides
 	public void animation() {
 		if(getInAttackAnimation()){
 			if(getCharacterPortrait().getImage().impl_getUrl().contains("Idle") ||
