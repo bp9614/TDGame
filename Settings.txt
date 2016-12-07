@@ -1,3 +1,7 @@
 100
+<<<<<<< HEAD
 true
+=======
+false
+>>>>>>> branch 'master' of https://github.com/phamb1/NewTDGame
 2
