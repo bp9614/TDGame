@@ -78,6 +78,9 @@ public class Settings {
 	 * ------------------------------------------------------------------------------------------
 	 * Alright, how does this load up settings? So, using scanner, which can do file output, we know where
 	 * each input is, so we can get the next values can set them to the values to the correct values.
+	 * ------------------------------------------------------------------------------------------
+	 * If there is no default, then make one using PrintWriter (which creates a new file, Settings.txt,
+	 * and places default settings into that file).
 	 */
 	public void loadSettings(){
 		try {
@@ -98,6 +101,12 @@ public class Settings {
 		}
 	}
 	
+	/*
+	 * BP
+	 * ------------------------------------------------------------------------------------------
+	 * Similar to load settings, uses another class, PrintWriter/FileWriter to write to a file (or
+	 * create if there is nothing there) the current settings.
+	 */
 	public void saveSettings(){
 		try {
 			PrintWriter newSettings = new PrintWriter(new FileWriter(new File("Settings.txt")));
